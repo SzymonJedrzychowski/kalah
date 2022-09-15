@@ -8,13 +8,13 @@ public class App {
         game game = new game();
         HashMap<Integer, Integer> results = new HashMap<>();
 
-        MM_minimax player1 = new MM_minimax(1);
-        MM_minimax player2 = new MM_minimax(1);
+        MM_abPruning player1 = new MM_abPruning(11);
+        MM_abPruning player2 = new MM_abPruning(11);
 
         while (true) {
             results = game.isTerminal();
 
-            game.printBoard();
+            //game.printBoard();
             if (results.get(0) == 1) {
                 break;
             }
