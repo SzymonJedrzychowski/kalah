@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class MM_abPruning {
+public class MM_abPruning implements gamePlayer {
     int globalDepth;
     int moveCount;
 
@@ -26,10 +26,11 @@ public class MM_abPruning {
 
         moveCount = 0;
 
-        for (int moveIndex : legalMoves) {
-            stateCopy = state.copy();
-            stateCopy.move(moveIndex);
-            moveCount += 1;
+        HashMap<Integer, game> futureStates = createStates(state, legalMoves);
+        int[] legalMovesOrdered = orderMoves(state, legalMoves, futureStates);
+
+        for (int moveIndex : legalMovesOrdered) {
+            stateCopy = futureStates.get(moveIndex);
 
             newScore = deepMove(stateCopy, stateCopy.playerToMove == state.playerToMove, globalDepth - 1, alpha, beta);
             if ((newScore > bestScore && state.playerToMove == 1)
@@ -71,14 +72,15 @@ public class MM_abPruning {
         if (depth <= 0 && !samePlayer) {
             return state.board[6] - state.board[13];
         }
-        
+
         HashSet<Integer> legalMoves = state.getLegalMoves();
         game stateCopy;
-        
-        for (int moveIndex : legalMoves) {
-            stateCopy = state.copy();
-            stateCopy.move(moveIndex);
-            moveCount += 1;
+
+        HashMap<Integer, game> futureStates = createStates(state, legalMoves);
+        int[] legalMovesOrdered = orderMoves(state, legalMoves, futureStates);
+
+        for (int moveIndex : legalMovesOrdered) {
+            stateCopy = futureStates.get(moveIndex);
 
             newScore = deepMove(stateCopy, stateCopy.playerToMove == state.playerToMove, depth - 1, alpha, beta);
             if ((newScore > bestScore && state.playerToMove == 1)
@@ -100,5 +102,44 @@ public class MM_abPruning {
         }
 
         return bestScore;
+    }
+
+    private HashMap<Integer, game> createStates(game state, HashSet<Integer> legalMoves) {
+        HashMap<Integer, game> futureStates = new HashMap<>();
+        game stateCopy;
+
+        for (int place : legalMoves) {
+            stateCopy = state.copy();
+            stateCopy.move(place);
+            futureStates.put(place, stateCopy);
+        }
+
+        moveCount += futureStates.size();
+
+        return futureStates;
+    }
+
+    private int[] orderMoves(game state, HashSet<Integer> legalMoves, HashMap<Integer, game> futureStates) {
+        int[] legalMovesOrdered = new int[futureStates.size()];
+        int allowNextMoveIndex = 0;
+        int noNextMoveIndex = futureStates.size() - 1;
+
+        for (int moveIndex : legalMoves) {
+            if (futureStates.get(moveIndex).playerToMove == state.playerToMove) {
+                allowNextMoveIndex += 1;
+            } else {
+                legalMovesOrdered[noNextMoveIndex] = moveIndex;
+                noNextMoveIndex -= 1;
+            }
+        }
+
+        for (int moveIndex : legalMoves) {
+            if (futureStates.get(moveIndex).playerToMove == state.playerToMove) {
+                allowNextMoveIndex -= 1;
+                legalMovesOrdered[allowNextMoveIndex] = moveIndex;
+            }
+        }
+
+        return legalMovesOrdered;
     }
 }

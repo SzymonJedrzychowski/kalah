@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.HashMap;
 
-public class MM_minimax {
+public class MM_minimax implements gamePlayer {
     int globalDepth;
     int moveCount;
     HashMap<Integer, game> futureStates = new HashMap<>();

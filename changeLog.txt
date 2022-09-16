@@ -1,0 +1,15 @@
+History of changes
+
+1. 14.09.2022 - create game logics and minimax opponent
+- created game logics,
+- created minimax opponent.
+
+2. 15.09.2022 - create abPruning opponent
+- created alpha-beta pruning opponent,
+- modified code of minimax opponent to improve the clarity of the code.
+
+3. 16.09.2022 - add move ordering, create gamePlayer interface, add README and changeLog
+- optimised abPruning opponent by implementing move ordering that prioritises moves that would allow for consecutive move,
+- created interface gamePlayer that is implemented by all opponents,
+- created README.md file,
+- created changeLog.txt file.
