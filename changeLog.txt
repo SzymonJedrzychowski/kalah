@@ -13,3 +13,9 @@ History of changes
 - created interface gamePlayer that is implemented by all opponents,
 - created README.md file,
 - created changeLog.txt file.
+
+4. 17.09.2022 - create MCTS opponent, change method privacy, remove target directory
+- created Monte Carlo Tree Search (MCTS) opponent (with UCT),
+- changed methods privacy to private where possible,
+- added check in game to check if selected move is legal,
+- removed target directory from git.

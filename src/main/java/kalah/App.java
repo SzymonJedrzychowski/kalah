@@ -23,6 +23,10 @@ public class App {
             } else {
                 move = player2.move(game);
             }
+            if(!game.getLegalMoves().contains(move)){
+                System.out.println("Incorrect move was selected. Game will be stopped.");
+                break;
+            }
             game.move(move);
         }
     }

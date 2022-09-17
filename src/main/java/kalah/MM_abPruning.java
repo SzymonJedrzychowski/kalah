@@ -59,7 +59,7 @@ public class MM_abPruning implements gamePlayer {
         return bestMovePlace;
     }
 
-    public int deepMove(game state, boolean samePlayer, int depth, int alpha, int beta) {
+    private int deepMove(game state, boolean samePlayer, int depth, int alpha, int beta) {
         int bestScore = -200 * state.playerToMove;
         int newScore;
 

@@ -45,7 +45,7 @@ public class MM_minimax implements gamePlayer {
         return bestMovePlace;
     }
 
-    public int deepMove(game state, boolean samePlayer, int depth) {
+    private int deepMove(game state, boolean samePlayer, int depth) {
         int bestScore = -200 * state.playerToMove;
         int newScore;
 
