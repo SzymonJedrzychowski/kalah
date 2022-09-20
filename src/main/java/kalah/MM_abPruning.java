@@ -2,7 +2,7 @@ package kalah;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class MM_abPruning implements gamePlayer {
     int globalDepth;
@@ -21,16 +21,17 @@ public class MM_abPruning implements gamePlayer {
 
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
 
-        HashSet<Integer> legalMoves = state.getLegalMoves();
+        ArrayList<Integer> legalMoves = state.getLegalMoves();
         game stateCopy;
 
         moveCount = 0;
 
-        HashMap<Integer, game> futureStates = createStates(state, legalMoves);
-        int[] legalMovesOrdered = orderMoves(state, legalMoves, futureStates);
+        int[] legalMovesOrdered = orderMoves(state, legalMoves);
 
         for (int moveIndex : legalMovesOrdered) {
-            stateCopy = futureStates.get(moveIndex);
+            stateCopy = state.copy();
+            stateCopy.move(moveIndex);
+            moveCount += 1;
 
             newScore = deepMove(stateCopy, stateCopy.playerToMove == state.playerToMove, globalDepth - 1, alpha, beta);
             if ((newScore > bestScore && state.playerToMove == 1)
@@ -73,14 +74,15 @@ public class MM_abPruning implements gamePlayer {
             return state.board[6] - state.board[13];
         }
 
-        HashSet<Integer> legalMoves = state.getLegalMoves();
+        ArrayList<Integer> legalMoves = state.getLegalMoves();
         game stateCopy;
 
-        HashMap<Integer, game> futureStates = createStates(state, legalMoves);
-        int[] legalMovesOrdered = orderMoves(state, legalMoves, futureStates);
+        int[] legalMovesOrdered = orderMoves(state, legalMoves);
 
         for (int moveIndex : legalMovesOrdered) {
-            stateCopy = futureStates.get(moveIndex);
+            stateCopy = state.copy();
+            stateCopy.move(moveIndex);
+            moveCount += 1;
 
             newScore = deepMove(stateCopy, stateCopy.playerToMove == state.playerToMove, depth - 1, alpha, beta);
             if ((newScore > bestScore && state.playerToMove == 1)
@@ -104,28 +106,17 @@ public class MM_abPruning implements gamePlayer {
         return bestScore;
     }
 
-    private HashMap<Integer, game> createStates(game state, HashSet<Integer> legalMoves) {
-        HashMap<Integer, game> futureStates = new HashMap<>();
-        game stateCopy;
-
-        for (int place : legalMoves) {
-            stateCopy = state.copy();
-            stateCopy.move(place);
-            futureStates.put(place, stateCopy);
-        }
-
-        moveCount += futureStates.size();
-
-        return futureStates;
-    }
-
-    private int[] orderMoves(game state, HashSet<Integer> legalMoves, HashMap<Integer, game> futureStates) {
-        int[] legalMovesOrdered = new int[futureStates.size()];
+    private int[] orderMoves(game state, ArrayList<Integer> legalMoves) {
+        int[] legalMovesOrdered = new int[legalMoves.size()];
         int allowNextMoveIndex = 0;
-        int noNextMoveIndex = futureStates.size() - 1;
+        int noNextMoveIndex = legalMovesOrdered.length - 1;
+        int place;
 
         for (int moveIndex : legalMoves) {
-            if (futureStates.get(moveIndex).playerToMove == state.playerToMove) {
+            place = (state.playerToMove == 1 ? moveIndex : moveIndex + 7);
+            place = (place + state.board[place]) % 14 - state.board[place] / 14;
+            place = (state.playerToMove == 1 ? place + 7 : place);
+            if (place == 13) {
                 allowNextMoveIndex += 1;
             } else {
                 legalMovesOrdered[noNextMoveIndex] = moveIndex;
@@ -134,7 +125,10 @@ public class MM_abPruning implements gamePlayer {
         }
 
         for (int moveIndex : legalMoves) {
-            if (futureStates.get(moveIndex).playerToMove == state.playerToMove) {
+            place = (state.playerToMove == 1 ? moveIndex : moveIndex + 7);
+            place = (place + state.board[place]) % 14 - state.board[place] / 14;
+            place = (state.playerToMove == 1 ? place + 7 : place);
+            if (place == 13) {
                 allowNextMoveIndex -= 1;
                 legalMovesOrdered[allowNextMoveIndex] = moveIndex;
             }

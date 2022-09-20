@@ -19,3 +19,7 @@ History of changes
 - changed methods privacy to private where possible,
 - added check in game to check if selected move is legal,
 - removed target directory from git.
+
+5. 20.09.2022 - change HashSet to ArrayList for getLegalMoves, optimise move ordering
+- changed to ArrayList in getLegalMoves method as it was determined to be faster,
+- optimised move ordering so that less states is generated (instead states being generated and then checked if they allowed next move, mathematical formula was used to determine it before creating state).

@@ -1,8 +1,8 @@
 package kalah;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class MM_minimax implements gamePlayer {
     int globalDepth;
@@ -20,7 +20,7 @@ public class MM_minimax implements gamePlayer {
 
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
 
-        HashSet<Integer> legalMoves = state.getLegalMoves();
+        ArrayList<Integer> legalMoves = state.getLegalMoves();
         game stateCopy;
 
         moveCount = 0;
@@ -59,7 +59,7 @@ public class MM_minimax implements gamePlayer {
             return state.board[6] - state.board[13];
         }
 
-        HashSet<Integer> legalMoves = state.getLegalMoves();
+        ArrayList<Integer> legalMoves = state.getLegalMoves();
         game stateCopy;
 
         for (int moveIndex : legalMoves) {

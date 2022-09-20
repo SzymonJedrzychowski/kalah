@@ -2,7 +2,6 @@ package kalah;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MCTS_node {
@@ -22,7 +21,7 @@ public class MCTS_node {
             game stateCopy;
             MCTS_node newNode;
 
-            HashSet<Integer> legalMoves = state.getLegalMoves();
+            ArrayList<Integer> legalMoves = state.getLegalMoves();
 
             for (int move : legalMoves) {
                 stateCopy = state.copy();
@@ -74,7 +73,7 @@ public class MCTS_node {
             visits += 1;
             propagate(results.get(1));
         } else {
-            HashSet<Integer> legalMoves;
+            ArrayList<Integer> legalMoves;
             int randomNum;
             int moveIndex;
             game thisState = state.copy();

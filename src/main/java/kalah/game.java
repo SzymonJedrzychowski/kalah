@@ -2,7 +2,7 @@ package kalah;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class game {
     int[] board = new int[14];
@@ -24,8 +24,8 @@ public class game {
         rulesBroken = false;
     }
 
-    public HashSet<Integer> getLegalMoves() {
-        HashSet<Integer> legalMoves = new HashSet<>();
+    public ArrayList<Integer> getLegalMoves() {
+        ArrayList<Integer> legalMoves = new ArrayList<>();
         if (playerToMove == 1) {
             for (int i = 0; i < 6; i++) {
                 if (board[i] > 0) {
