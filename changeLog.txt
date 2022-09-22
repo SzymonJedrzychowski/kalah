@@ -23,3 +23,10 @@ History of changes
 5. 20.09.2022 - change HashSet to ArrayList for getLegalMoves, optimise move ordering
 - changed to ArrayList in getLegalMoves method as it was determined to be faster,
 - optimised move ordering so that less states is generated (instead states being generated and then checked if they allowed next move, mathematical formula was used to determine it before creating state).
+
+6. 22.09.2022 - create humanPlayer, change resetState method privacy
+- created humanPlayer class, so that human can input the move,
+- changed resetState privacy to public.
+
+7. 22.09.2022 - change README.md - tests of agents minimax and abPruning
+- uploaded performance of two opponents.

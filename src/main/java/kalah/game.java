@@ -13,7 +13,7 @@ public class game {
         resetState();
     }
 
-    private void resetState() {
+    public void resetState() {
         for (int i = 0; i < 14; i++) {
             board[i] = 4;
         }
