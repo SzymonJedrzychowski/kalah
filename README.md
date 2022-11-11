@@ -9,7 +9,8 @@ Software was created using JDK17.
 
 # Currently available agents
 - minimax opponent,
-- minimax with alpha-beta pruning.
+- minimax with alpha-beta pruning,
+- Monte Carlo Tree Search.
 
 # Performance of models
 Small test was conducted to find the performance improvement of abPruning opponent compared to Minimax opponent. 5 games were played (with the same moves), each 3 times, and average time spent on choosing move and number of created states was shown in the table bellow.
